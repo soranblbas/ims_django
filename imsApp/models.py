@@ -2,7 +2,7 @@ from re import I
 from django.db import models
 from django.utils import timezone
 from django.dispatch import receiver
-from more_itertools import quantify
+# from more_itertools import quantify
 
 from django.db.models import Sum
 
@@ -20,9 +20,17 @@ class Category(models.Model):
         return self.name
 
 
+class Price_List(models.Model):
+    name = models.CharField(max_length=250)
+
+    def __str__(self):
+        return self.name
+
+
 class Product(models.Model):
     code = models.CharField(max_length=100, blank=True, null=True)
     name = models.CharField(max_length=250, blank=True, null=True)
+    price_list = models.ForeignKey(Price_List, on_delete=models.CASCADE)
     description = models.TextField()
     price = models.FloatField(default=0)
     status = models.CharField(max_length=2, choices=(('1', 'Active'), ('2', 'Inactive')), default=1)
